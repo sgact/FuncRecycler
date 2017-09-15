@@ -42,6 +42,7 @@ public class FuncRecycler extends CoordinatorLayout {
     private ViewGroup.LayoutParams mHeaderParams, mRecyclerParams, mFooterParams;
     private FuncRecyclerBehavior mBehavior;
 
+    private LoadListener mListener;
 
     /**
      * 初始化：布局、Behavior
@@ -59,6 +60,7 @@ public class FuncRecycler extends CoordinatorLayout {
         addView(mFooter);
 
         mBehavior = new FuncRecyclerBehavior();
+        mBehavior.setLoadListener(mListener);
         ((LayoutParams) mRecycler.getLayoutParams()).setBehavior(mBehavior);
     }
 
@@ -114,5 +116,17 @@ public class FuncRecycler extends CoordinatorLayout {
 
     public RecyclerView getmRecycler() {
         return mRecycler;
+    }
+
+    public void setLoadListener(LoadListener loadListener){
+        this.mListener = loadListener;
+    }
+
+    public void setRefreshing(boolean isRefreshing){
+        mBehavior.setFreshingState(isRefreshing);
+    }
+
+    public boolean getRefreshingState(){
+        return mBehavior.isFreshingState();
     }
 }

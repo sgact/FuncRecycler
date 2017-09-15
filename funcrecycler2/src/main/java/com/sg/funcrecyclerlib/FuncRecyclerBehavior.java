@@ -14,6 +14,22 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
     private final String TAG = getClass().getSimpleName();
 
 
+    /**
+     * 加载数据监听
+     */
+    private LoadListener mListener;
+    /**
+     * 标识是否正在刷新，为了防止调用刷新多次
+     */
+    private boolean mIsFreshingState = false;
+    /**
+     * 当下拉的距离大于threshold * header#height时开始刷新
+     */
+    private float mRefreshThreshold = 0.8f;
+
+
+
+
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, RecyclerView child, View directTargetChild, View target, int nestedScrollAxes) {
         return true;
@@ -21,7 +37,6 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
 
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, RecyclerView child, View target, int dx, int dy, int[] consumed) {
-        Log.d(TAG, "onNestedPreScroll: " + coordinatorLayout.getScrollY());
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
 
         View header = coordinatorLayout.getChildAt(0);
@@ -55,14 +70,8 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
                 dy /= 2;
                 coordinatorLayout.scrollBy(0, dy);
 
-
-                //todo extract method
-
-                if (dy > 0){
-                    //refresh
-
-
-
+                if (dy < 0){
+                    doRefresh(header, coordinatorLayout);
                 }else{
                     //load more
 
@@ -88,5 +97,41 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
 
 
 
+    }
+
+    /**
+     * 下拉刷新
+     */
+    private void doRefresh(View header, CoordinatorLayout parent) {
+        int sy = parent.getScrollY();
+        float progress = 1.0f * (-sy) / header.getMeasuredHeight();
+        if (progress < mRefreshThreshold){
+            Log.d(TAG, "onNestedPreScroll: " + "load prapare");
+        }else{
+            if (mListener != null && mIsFreshingState) {
+                mListener.onRefresh();
+                mIsFreshingState = true;
+            }
+        }
+    }
+
+    /**
+     * 刷新时让Header保持不动
+     */
+    private void dockHeader(View header, CoordinatorLayout parent){
+        //// TODO: 2017/9/15 写到这了
+    }
+
+
+    public void setLoadListener(LoadListener loadListener){
+        this.mListener = loadListener;
+    }
+
+    public boolean isFreshingState() {
+        return mIsFreshingState;
+    }
+
+    public void setFreshingState(boolean mIsFreshingState) {
+        this.mIsFreshingState = mIsFreshingState;
     }
 }

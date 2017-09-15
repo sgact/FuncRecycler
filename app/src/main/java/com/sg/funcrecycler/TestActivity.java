@@ -28,5 +28,7 @@ public class TestActivity extends Activity{
     public void print(View v){
         Button bt = (Button) findViewById(R.id.go);
         Log.d("print", "print: " + bt.getTop());
+
+
     }
 }
