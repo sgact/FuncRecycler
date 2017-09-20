@@ -4,19 +4,13 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.text.method.Touch;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import java.util.logging.LogManager;
 
 /**
  * Created by SG on 2017/9/15.
@@ -44,7 +38,7 @@ public class FuncRecycler extends CoordinatorLayout {
     private View mFooter, mHeader;
     private RecyclerView mRecycler;
     private int mFooterHeight = 200;
-    private int mHeaderHeight = 600;
+    private int mHeaderHeight = 400;
     private ViewGroup.LayoutParams mHeaderParams, mRecyclerParams, mFooterParams;
     private FuncRecyclerBehavior mBehavior;
 
@@ -55,6 +49,10 @@ public class FuncRecycler extends CoordinatorLayout {
      * 标识是否正在刷新，为了防止调用刷新多次
      */
     private boolean mIsFreshingState = false;
+    /**
+     * 标识是否正在加载更多，为了防止调用加载更多多次
+     */
+    private boolean mIsLoadingMoreState = false;
 
     /**
      * 初始化：布局、Behavior
@@ -84,7 +82,6 @@ public class FuncRecycler extends CoordinatorLayout {
     private class RecyclerTouchListener implements OnTouchListener {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
             switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     yDown = event.getRawY();
@@ -94,12 +91,14 @@ public class FuncRecycler extends CoordinatorLayout {
                     float deltaY = yUp - yDown;
                     if (deltaY == 0){
                         //屏蔽对RecyclerView的点击
-                    }else if (mBehavior.ismIsGoodLength() && deltaY > 0){
+                    }else if (mBehavior.ismRefreshCondition() && deltaY > 0){
                         dockHeader();
+                    }else if(mBehavior.ismLoadMoreCondition() && deltaY < 0){
+                        dockFooter();
                     }else{
                         restoreView();
                     }
-                    mBehavior.setmIsGoodLength(false);
+                    mBehavior.setmRefreshCondition(false);
                     break;
             }
             return false;
@@ -116,6 +115,20 @@ public class FuncRecycler extends CoordinatorLayout {
             mIsFreshingState = true;
             if (mListener != null) {
                 mListener.onRefresh();
+            }
+        }
+    }
+
+    /**
+     * 让footer保持不动，并且加载更多
+     */
+    private void dockFooter(){
+        ObjectAnimator.ofInt(this, "ScrollY", this.getScrollY(),
+                (int)(mFooter.getMeasuredHeight() * mBehavior.REFRESH_THRESHOLD)).start();
+        if (!mIsLoadingMoreState){
+            mIsLoadingMoreState = true;
+            if (mListener != null) {
+                mListener.onLoadMore();
             }
         }
     }

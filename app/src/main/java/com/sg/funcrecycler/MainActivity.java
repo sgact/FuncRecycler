@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         frv.setLoadListener(new LoadListener() {
             @Override
             public void onLoadMore() {
+                Toast.makeText(MainActivity.this, "loading", Toast.LENGTH_SHORT).show();
 
             }
 

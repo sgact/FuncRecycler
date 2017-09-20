@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import java.lang.annotation.ElementType;
-
 /**
  * Created by SG on 2017/9/15.
  */
@@ -18,7 +16,11 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
     /**
      * 标识下拉的距离足够长
      */
-    private boolean mIsGoodLength = false;
+    private boolean mRefreshCondition = false;
+    /**
+     * 标识上拉加载更多的距离足够长
+     */
+    private boolean mLoadMoreCondition = false;
     /**
      * 当下拉的距离大于threshold * header#height时开始刷新
      */
@@ -57,14 +59,15 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
             //滑整体
             consumed[1] = dy;
 
-            if (sy + dy < (-header.getMeasuredHeight())){//下拉过多
+            if (c8){
+                coordinatorLayout.scrollTo(0, 0);
+            }else if (sy + dy < (-header.getMeasuredHeight())){//下拉过多
                 coordinatorLayout.scrollTo(0, - header.getMeasuredHeight());
                 doRefresh(header, coordinatorLayout);
-            }else if (c8 ){//归位
-                coordinatorLayout.scrollTo(0, 0);
             }else if (sy + dy + coordinatorLayout.getMeasuredHeight()  >
                     coordinatorLayout.getMeasuredHeight() + footer.getMeasuredHeight()){//上拉过多
                 coordinatorLayout.scrollTo(0, footer.getMeasuredHeight());
+                doLoadMore(footer, coordinatorLayout);
             }else{
                 dy /= 2;
                 coordinatorLayout.scrollBy(0, dy);
@@ -72,6 +75,7 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
                     doRefresh(header, coordinatorLayout);
                 }else{//加载更多
                     //load more
+                    doLoadMore(footer, coordinatorLayout);
                 }
             }
         }
@@ -84,21 +88,45 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
     private void doRefresh(View header, CoordinatorLayout parent) {
         int sy = parent.getScrollY();
         float progress = 1.0f * (-sy) / header.getMeasuredHeight();
+
+        Log.d(TAG, "doRefresh: " + sy + "======" + header.getMeasuredHeight());
+
         if (progress < REFRESH_THRESHOLD){//todo 下拉的距离不足，展示动画
 
         }else{//停靠Header并刷新
-            mIsGoodLength = true;
+            mRefreshCondition = true;
         }
     }
 
-    public boolean ismIsGoodLength() {
-        return mIsGoodLength;
+    /**
+     * 上拉加载更多
+     */
+    private void doLoadMore(View footer, CoordinatorLayout parent){
+        int sy = parent.getScrollY();
+        float progress = 1.0f * (sy) / footer.getMeasuredHeight();
+        if (progress < REFRESH_THRESHOLD){//上拉的距离不足
+            Log.d(TAG, "doLoadMore: too short" + sy + "===" + footer.getMeasuredHeight());
+        }else{
+            Log.d(TAG, "doLoadMore: too ok");
+            mLoadMoreCondition = true;
+        }
     }
 
-    public void setmIsGoodLength(boolean mIsGoodLength) {
-        this.mIsGoodLength = mIsGoodLength;
+    public boolean ismRefreshCondition() {
+        return mRefreshCondition;
     }
 
+    public void setmRefreshCondition(boolean mRefreshCondition) {
+        this.mRefreshCondition = mRefreshCondition;
+    }
+
+    public boolean ismLoadMoreCondition() {
+        return mLoadMoreCondition;
+    }
+
+    public void setmLoadMoreCondition(boolean mLoadMoreCondition) {
+        this.mLoadMoreCondition = mLoadMoreCondition;
+    }
 
     /**
      * 仅当RecyclerView 归位时才让它响应fling事件
