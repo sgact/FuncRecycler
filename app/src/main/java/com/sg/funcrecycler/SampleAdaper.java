@@ -8,12 +8,26 @@ import android.widget.TextView;
 
 import com.sg.funcrecyclerlib.R;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by SG on 2017/9/15.
  */
 
 public class SampleAdaper extends RecyclerView.Adapter<SampleAdaper.SViewHolder> {
 
+    private List<Integer> mList = new LinkedList<>();
+
+    public List<Integer> getmList() {
+        return mList;
+    }
+
+    public void setmList(List<Integer> mList) {
+        this.mList.clear();
+        this.mList.addAll(mList);
+    }
 
     @Override
     public SViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -22,12 +36,13 @@ public class SampleAdaper extends RecyclerView.Adapter<SampleAdaper.SViewHolder>
 
     @Override
     public void onBindViewHolder(SViewHolder holder, int position) {
-        holder.tv.setText("This is " + position);
+        holder.tv.setText("This is " + mList.get(position));
     }
+
 
     @Override
     public int getItemCount() {
-        return 40;
+        return mList.size();
     }
 
     class SViewHolder extends RecyclerView.ViewHolder{

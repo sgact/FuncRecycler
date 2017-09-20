@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,7 @@ public class FuncRecycler extends CoordinatorLayout {
     /**
      * 标识是否正在刷新，为了防止调用刷新多次
      */
-    private boolean mIsFreshingState = false;
+    private boolean mIsRefreshingState = false;
     /**
      * 标识是否正在加载更多，为了防止调用加载更多多次
      */
@@ -112,8 +111,8 @@ public class FuncRecycler extends CoordinatorLayout {
     private void dockHeader(){
         ObjectAnimator.ofInt(this, "ScrollY", this.getScrollY(),
                 -(int)(mHeader.getMeasuredHeight() * mBehavior.REFRESH_THRESHOLD)).start();
-        if (!mIsFreshingState){
-            mIsFreshingState = true;
+        if (!mIsRefreshingState){
+            mIsRefreshingState = true;
             if (mListener != null) {
                 mListener.onRefresh();
             }
@@ -135,13 +134,18 @@ public class FuncRecycler extends CoordinatorLayout {
     }
 
     /**
-     * 还原布局
+     * 还原布局 动画
      */
     private void restoreView(){
         ObjectAnimator.ofInt(this, "ScrollY", this.getScrollY(), 0).start();
     }
 
-
+    /**
+     * 还原布局 立即
+     */
+    private void restoreViewImmediate(){
+        this.setScrollY(0);
+    }
 
     /**
      * onMeasure 初始化子View的LayoutParams
@@ -198,6 +202,24 @@ public class FuncRecycler extends CoordinatorLayout {
 
     public void setLoadListener(LoadListener loadListener){
         this.mListener = loadListener;
+    }
+
+    public void setRefreshingState(boolean mIsFreshingState) {
+        if (!mIsFreshingState){
+            restoreView();
+        }
+        this.mIsRefreshingState = mIsFreshingState;
+    }
+
+    /**
+     * 设置mIsLoadingMoreState，当其为false时，加载更多完毕。
+     */
+    public void setLoadingMoreState(boolean mIsLoadingMoreState) {
+        if (!mIsLoadingMoreState){
+            restoreViewImmediate();
+            mRecycler.scrollBy(0, (int) (mFooter.getMeasuredHeight() * mBehavior.REFRESH_THRESHOLD));
+        }
+        this.mIsLoadingMoreState = mIsLoadingMoreState;
     }
 
 }
