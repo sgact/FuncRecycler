@@ -99,6 +99,7 @@ public class FuncRecycler extends CoordinatorLayout {
                         restoreView();
                     }
                     mBehavior.setmRefreshCondition(false);
+                    mBehavior.setmLoadMoreCondition(false);
                     break;
             }
             return false;
