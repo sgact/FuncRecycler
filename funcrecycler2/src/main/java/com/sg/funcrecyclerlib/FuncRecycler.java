@@ -1,16 +1,22 @@
 package com.sg.funcrecyclerlib;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.text.method.Touch;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import java.util.logging.LogManager;
 
 /**
  * Created by SG on 2017/9/15.
@@ -43,6 +49,12 @@ public class FuncRecycler extends CoordinatorLayout {
     private FuncRecyclerBehavior mBehavior;
 
     private LoadListener mListener;
+    private RecyclerTouchListener mTouchListener;
+
+    /**
+     * 标识是否正在刷新，为了防止调用刷新多次
+     */
+    private boolean mIsFreshingState = false;
 
     /**
      * 初始化：布局、Behavior
@@ -60,9 +72,61 @@ public class FuncRecycler extends CoordinatorLayout {
         addView(mFooter);
 
         mBehavior = new FuncRecyclerBehavior();
-        mBehavior.setLoadListener(mListener);
         ((LayoutParams) mRecycler.getLayoutParams()).setBehavior(mBehavior);
+
+        mTouchListener = new RecyclerTouchListener();
+        mRecycler.setOnTouchListener(mTouchListener);
     }
+
+
+    private float yDown, yUp;
+
+    private class RecyclerTouchListener implements OnTouchListener {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+
+            switch (event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    yDown = event.getRawY();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    yUp = event.getRawY();
+                    float deltaY = yUp - yDown;
+                    if (deltaY == 0){
+                        //屏蔽对RecyclerView的点击
+                    }else if (mBehavior.ismIsGoodLength() && deltaY > 0){
+                        dockHeader();
+                    }else{
+                        restoreView();
+                    }
+                    mBehavior.setmIsGoodLength(false);
+                    break;
+            }
+            return false;
+        }
+    }
+
+    /**
+     * 让Header保持不动, 并且刷新数据
+     */
+    private void dockHeader(){
+        ObjectAnimator.ofInt(this, "ScrollY", this.getScrollY(),
+                -(int)(mHeader.getMeasuredHeight() * mBehavior.REFRESH_THRESHOLD)).start();
+        if (!mIsFreshingState){
+            mIsFreshingState = true;
+            if (mListener != null) {
+                mListener.onRefresh();
+            }
+        }
+    }
+
+    /**
+     * 还原布局
+     */
+    private void restoreView(){
+        ObjectAnimator.ofInt(this, "ScrollY", this.getScrollY(), 0).start();
+    }
+
 
 
     /**
@@ -122,11 +186,4 @@ public class FuncRecycler extends CoordinatorLayout {
         this.mListener = loadListener;
     }
 
-    public void setRefreshing(boolean isRefreshing){
-        mBehavior.setFreshingState(isRefreshing);
-    }
-
-    public boolean getRefreshingState(){
-        return mBehavior.isFreshingState();
-    }
 }
