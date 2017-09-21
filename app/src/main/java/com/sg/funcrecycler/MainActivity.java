@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
         frv.setAdapter(mAdapter);
 //        frv.setmHeader(new NumberHeader(this));
 //        frv.setmFooter(new TextFooter(this));
-        frv.setmIsRefreshEnable(true);
-        frv.setmIsLoadMoreEnable(false);
         frv.setLoadListener(new LoadListener() {
             @Override
             public void onLoadMore() {
