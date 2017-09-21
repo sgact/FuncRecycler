@@ -178,6 +178,10 @@ public class FuncRecycler extends CoordinatorLayout {
         mRecycler.setAdapter(adapter);
     }
 
+    public void addItemDecoration(RecyclerView.ItemDecoration decoration){
+        mRecycler.addItemDecoration(decoration);
+    }
+
     public void setmFooter(View mFooter) {
         this.mFooter = mFooter;
         removeViewAt(getChildCount() - 1);
@@ -245,5 +249,13 @@ public class FuncRecycler extends CoordinatorLayout {
 
     public void setRefreshEnable(boolean mIsRefreshEnable) {
         mBehavior.setmIsRefreshEnable(mIsRefreshEnable);
+    }
+
+    public void setRefreshThreshold(float threshold){
+        mBehavior.REFRESH_THRESHOLD = threshold;
+    }
+
+    public void setLoadMoreThreshold(float threshold){
+        mBehavior.LOADMORE_THRESHOLD = threshold;
     }
 }
