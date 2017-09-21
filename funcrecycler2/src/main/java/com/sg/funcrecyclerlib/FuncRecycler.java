@@ -10,8 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import com.sg.funcrecyclerlib.smaple.ProgressFooter;
 import com.sg.funcrecyclerlib.smaple.RoundProgressHeader;
+import com.sg.funcrecyclerlib.smaple.TextFooter;
 
 /**
  * Created by SG on 2017/9/15.
@@ -38,8 +41,6 @@ public class FuncRecycler extends CoordinatorLayout {
 
     private View mFooter, mHeader;
     private RecyclerView mRecycler;
-    private int mFooterHeight = 200;
-    private ViewGroup.LayoutParams mHeaderParams, mRecyclerParams, mFooterParams;
     private FuncRecyclerBehavior mBehavior;
 
     private LoadListener mListener;
@@ -58,8 +59,7 @@ public class FuncRecycler extends CoordinatorLayout {
      * 初始化：布局、Behavior
      */
     private void init(Context context){
-        mFooter = new ImageView(context);
-        mFooter.setBackgroundColor(Color.parseColor("#123456"));
+        mFooter = new ProgressFooter(context);
         mHeader = new RoundProgressHeader(context);
         mRecycler = new RecyclerView(context);
         mRecycler.setBackgroundColor(Color.parseColor("#aaaaaa"));
@@ -125,7 +125,7 @@ public class FuncRecycler extends CoordinatorLayout {
      */
     private void dockFooter(){
         ObjectAnimator.ofInt(this, "ScrollY", this.getScrollY(),
-                (int)(mFooter.getMeasuredHeight() * mBehavior.REFRESH_THRESHOLD)).start();
+                (int)(mFooter.getMeasuredHeight() * mBehavior.LOADMORE_THRESHOLD)).start();
         if (!mIsLoadingMoreState){
             mIsLoadingMoreState = true;
             if (mListener != null) {
@@ -154,14 +154,8 @@ public class FuncRecycler extends CoordinatorLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-//        mHeader.getLayoutParams().height = mHeaderHeight;
         mRecycler.getLayoutParams().height = getMeasuredHeight();
-        mFooter.getLayoutParams().height = mFooterHeight;
-
-//        mHeader.getLayoutParams().width = getMeasuredWidth();
         mRecycler.getLayoutParams().width = getMeasuredWidth();
-        mFooter.getLayoutParams().width = getMeasuredWidth();
     }
 
     /**
@@ -221,7 +215,7 @@ public class FuncRecycler extends CoordinatorLayout {
     public void setLoadingMoreState(boolean mIsLoadingMoreState) {
         if (!mIsLoadingMoreState){
             restoreViewImmediate();
-            mRecycler.scrollBy(0, (int) (mFooter.getMeasuredHeight() * mBehavior.REFRESH_THRESHOLD));
+            mRecycler.scrollBy(0, (int) (mFooter.getMeasuredHeight() * mBehavior.LOADMORE_THRESHOLD));
         }
         this.mIsLoadingMoreState = mIsLoadingMoreState;
     }

@@ -24,6 +24,10 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
      * 当下拉的距离大于threshold * header#height时开始刷新
      */
     public static float REFRESH_THRESHOLD = 0.7f;
+    /**
+     *当下拉的距离大于threshold * footer#height时开始刷新
+     */
+    public static float LOADMORE_THRESHOLD = 0.95f;
 
     public FuncRecyclerBehavior() {
     }
@@ -101,7 +105,7 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
     private void doLoadMore(View footer, CoordinatorLayout parent){
         int sy = parent.getScrollY();
         float progress = 1.0f * (sy) / footer.getMeasuredHeight();
-        if (progress < REFRESH_THRESHOLD){//上拉的距离不足
+        if (progress < LOADMORE_THRESHOLD){//上拉的距离不足
         }else{
             mLoadMoreCondition = true;
         }

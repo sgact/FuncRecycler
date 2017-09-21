@@ -47,10 +47,8 @@ public class RoundProgressHeader extends View implements FuncHeader {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
-        int wSpec = MeasureSpec.makeMeasureSpec(parentWidth, MeasureSpec.EXACTLY);
         int hSpec = MeasureSpec.makeMeasureSpec(Utils.dp2px(getContext(), 100), MeasureSpec.EXACTLY);
-        super.onMeasure(wSpec, hSpec);
+        super.onMeasure(widthMeasureSpec, hSpec);
     }
 
     @Override

@@ -13,10 +13,14 @@ public class Utils {
     /**
      * 获得文字的高度
      */
-    public static int getFontHeight(Paint paint)
-    {
+    public static int getFontHeight(Paint paint) {
         Paint.FontMetrics fm = paint.getFontMetrics();
         return (int) Math.ceil(fm.descent - fm.ascent);
+    }
+
+    public static int getTextLength(Paint paint, String str){
+        int ww = (int) paint.measureText(str, 0, str.length());
+        return ww;
     }
 
     /**
