@@ -235,7 +235,7 @@ public class FuncRecycler extends CoordinatorLayout {
         return mBehavior.ismIsLoadMoreEnable();
     }
 
-    public void setmIsLoadMoreEnable(boolean mIsLoadMoreEnable) {
+    public void setLoadMoreEnable(boolean mIsLoadMoreEnable) {
         mBehavior.setmIsLoadMoreEnable(mIsLoadMoreEnable);
     }
 
@@ -243,7 +243,7 @@ public class FuncRecycler extends CoordinatorLayout {
         return mBehavior.ismIsRefreshEnable();
     }
 
-    public void setmIsRefreshEnable(boolean mIsRefreshEnable) {
+    public void setRefreshEnable(boolean mIsRefreshEnable) {
         mBehavior.setmIsRefreshEnable(mIsRefreshEnable);
     }
 }
