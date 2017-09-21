@@ -64,7 +64,7 @@ frv.setmHeader(new YourHeader(context));
 Footer只是一个普通的View，同样你需要调用
 ```java
 frv.setmFooter(new YourFooter(context));
-
+```
 
 * 屏蔽下拉或上拉
 
