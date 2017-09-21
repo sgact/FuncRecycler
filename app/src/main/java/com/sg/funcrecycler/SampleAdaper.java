@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.sg.funcrecyclerlib.R;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

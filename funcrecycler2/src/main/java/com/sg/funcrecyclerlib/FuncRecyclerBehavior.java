@@ -3,7 +3,6 @@ package com.sg.funcrecyclerlib;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Scroller;
 
 /**
  * Created by SG on 2017/9/15.
@@ -29,6 +28,14 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
      *当下拉的距离大于threshold * footer#height时开始刷新
      */
     public static float LOADMORE_THRESHOLD = 0.95f;
+    /**
+     * 标识是否支持上拉加载更多
+     */
+    private boolean mIsLoadMoreEnable = true;
+    /**
+     * 标识是否支持下拉刷新
+     */
+    private boolean mIsRefreshEnable = true;
 
     public FuncRecyclerBehavior() {
     }
@@ -50,13 +57,12 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
         boolean c1 = coordinatorLayout.getScrollY() == 0;//RecyclerView位于初始位置
         boolean c2 = child.canScrollVertically(-1);//能向下滑
         boolean c3 = child.canScrollVertically(1);//能向上滑
-        boolean c4 = sy + dy < (-header.getMeasuredHeight());//Header玩全显示
-        boolean c5 = sy + dy > coordinatorLayout.getMeasuredHeight() + footer.getMeasuredHeight();//Footer完全显示
         boolean c6 = dy < 0;//向下
         boolean c7 = dy > 0;//向上
         boolean c8 = (coordinatorLayout.getScrollY() * (coordinatorLayout.getScrollY() + dy) < 0);//ScrollY归0
 
-        if (c1 && ((c6 && c2) || (c3 && c7))){
+        if ( (!mIsLoadMoreEnable && c7 && c1) ||  (!mIsRefreshEnable && c6 && c1)
+                ||  c1 && ((c6 && c2) || (c3 && c7))){
             //滑recycler
         }else{
             //滑整体
@@ -138,6 +144,21 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
         }else {
             return false;
         }
+    }
 
+    public boolean ismIsLoadMoreEnable() {
+        return mIsLoadMoreEnable;
+    }
+
+    public void setmIsLoadMoreEnable(boolean mIsLoadMoreEnable) {
+        this.mIsLoadMoreEnable = mIsLoadMoreEnable;
+    }
+
+    public boolean ismIsRefreshEnable() {
+        return mIsRefreshEnable;
+    }
+
+    public void setmIsRefreshEnable(boolean mIsRefreshEnable) {
+        this.mIsRefreshEnable = mIsRefreshEnable;
     }
 }

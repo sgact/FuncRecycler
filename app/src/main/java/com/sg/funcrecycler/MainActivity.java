@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
         frv.setLayoutManager(new LinearLayoutManager(this));
         mAdapter.setmList(generateTestData(0, 30));
         frv.setAdapter(mAdapter);
-        frv.setmHeader(new NumberHeader(this));
-        frv.setmFooter(new TextFooter(this));
+//        frv.setmHeader(new NumberHeader(this));
+//        frv.setmFooter(new TextFooter(this));
+        frv.setmIsRefreshEnable(true);
+        frv.setmIsLoadMoreEnable(false);
         frv.setLoadListener(new LoadListener() {
             @Override
             public void onLoadMore() {

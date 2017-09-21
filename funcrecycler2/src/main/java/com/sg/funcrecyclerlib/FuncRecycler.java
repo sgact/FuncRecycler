@@ -2,7 +2,6 @@ package com.sg.funcrecyclerlib;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -41,6 +40,7 @@ public class FuncRecycler extends CoordinatorLayout {
 
     private LoadListener mListener;
     private RecyclerTouchListener mTouchListener;
+
 
     /**
      * 标识是否正在刷新，为了防止调用刷新多次
@@ -231,4 +231,19 @@ public class FuncRecycler extends CoordinatorLayout {
         this.mIsLoadingMoreState = mIsLoadingMoreState;
     }
 
+    public boolean ismIsLoadMoreEnable() {
+        return mBehavior.ismIsLoadMoreEnable();
+    }
+
+    public void setmIsLoadMoreEnable(boolean mIsLoadMoreEnable) {
+        mBehavior.setmIsLoadMoreEnable(mIsLoadMoreEnable);
+    }
+
+    public boolean ismIsRefreshEnable() {
+        return mBehavior.ismIsRefreshEnable();
+    }
+
+    public void setmIsRefreshEnable(boolean mIsRefreshEnable) {
+        mBehavior.setmIsRefreshEnable(mIsRefreshEnable);
+    }
 }
