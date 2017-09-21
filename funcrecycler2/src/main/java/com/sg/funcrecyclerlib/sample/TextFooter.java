@@ -1,10 +1,9 @@
-package com.sg.funcrecyclerlib.smaple;
+package com.sg.funcrecyclerlib.sample;
 
 import android.content.Context;
 import android.view.Gravity;
-import android.widget.TextView;
 
-import com.sg.funcrecyclerlib.Utils;
+import com.sg.funcrecyclerlib.utils.FuncUtils;
 
 /**
  * Created by SG on 2017/9/21.
@@ -24,7 +23,7 @@ public class TextFooter extends android.support.v7.widget.AppCompatTextView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int hSpec = MeasureSpec.makeMeasureSpec(Utils.dp2px(getContext(), 70), MeasureSpec.EXACTLY);
+        int hSpec = MeasureSpec.makeMeasureSpec(FuncUtils.dp2px(getContext(), 70), MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, hSpec);
     }
 }

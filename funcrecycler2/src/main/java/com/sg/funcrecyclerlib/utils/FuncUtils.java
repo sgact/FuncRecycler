@@ -1,4 +1,4 @@
-package com.sg.funcrecyclerlib;
+package com.sg.funcrecyclerlib.utils;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -8,7 +8,7 @@ import android.util.TypedValue;
  * Created by SG on 2017/9/21.
  */
 
-public class Utils {
+public class FuncUtils {
 
     /**
      * 获得文字的高度

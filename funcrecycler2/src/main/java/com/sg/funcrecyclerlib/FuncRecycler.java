@@ -8,13 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 
-import com.sg.funcrecyclerlib.smaple.ProgressFooter;
-import com.sg.funcrecyclerlib.smaple.RoundProgressHeader;
-import com.sg.funcrecyclerlib.smaple.TextFooter;
+import com.sg.funcrecyclerlib.sample.ProgressFooter;
+import com.sg.funcrecyclerlib.sample.RoundProgressHeader;
 
 /**
  * Created by SG on 2017/9/15.
@@ -62,7 +58,6 @@ public class FuncRecycler extends CoordinatorLayout {
         mFooter = new ProgressFooter(context);
         mHeader = new RoundProgressHeader(context);
         mRecycler = new RecyclerView(context);
-        mRecycler.setBackgroundColor(Color.parseColor("#aaaaaa"));
 
         addView(mHeader);
         addView(mRecycler);
@@ -181,6 +176,22 @@ public class FuncRecycler extends CoordinatorLayout {
      */
     public void setAdapter(RecyclerView.Adapter adapter){
         mRecycler.setAdapter(adapter);
+    }
+
+    public void setmFooter(View mFooter) {
+        this.mFooter = mFooter;
+        removeViewAt(getChildCount() - 1);
+        addView(mFooter, getChildCount());
+    }
+
+    public void setmHeader(View mHeader) {
+        this.mHeader = mHeader;
+        removeViewAt(0);
+        addView(mHeader, 0);
+    }
+
+    public void setmRecycler(RecyclerView mRecycler) {
+        this.mRecycler = mRecycler;
     }
 
     public View getmFooter() {

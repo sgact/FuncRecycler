@@ -10,6 +10,9 @@ import android.widget.Toast;
 import com.sg.funcrecyclerlib.FuncRecycler;
 import com.sg.funcrecyclerlib.LoadListener;
 import com.sg.funcrecyclerlib.R;
+import com.sg.funcrecyclerlib.sample.NumberHeader;
+import com.sg.funcrecyclerlib.sample.RoundProgressHeader;
+import com.sg.funcrecyclerlib.sample.TextFooter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         frv.setLayoutManager(new LinearLayoutManager(this));
         mAdapter.setmList(generateTestData(0, 30));
         frv.setAdapter(mAdapter);
+        frv.setmHeader(new NumberHeader(this));
+        frv.setmFooter(new TextFooter(this));
         frv.setLoadListener(new LoadListener() {
             @Override
             public void onLoadMore() {

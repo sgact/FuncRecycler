@@ -3,6 +3,7 @@ package com.sg.funcrecyclerlib;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Scroller;
 
 /**
  * Created by SG on 2017/9/15.

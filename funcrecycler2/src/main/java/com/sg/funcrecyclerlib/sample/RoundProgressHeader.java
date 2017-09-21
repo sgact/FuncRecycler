@@ -1,4 +1,4 @@
-package com.sg.funcrecyclerlib.smaple;
+package com.sg.funcrecyclerlib.sample;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,9 +9,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.sg.funcrecyclerlib.FuncHeader;
-import com.sg.funcrecyclerlib.FuncRecycler;
 import com.sg.funcrecyclerlib.FuncRecyclerBehavior;
-import com.sg.funcrecyclerlib.Utils;
+import com.sg.funcrecyclerlib.utils.FuncUtils;
 
 /**
  * Created by SG on 2017/9/21.
@@ -40,14 +39,14 @@ public class RoundProgressHeader extends View implements FuncHeader {
     private void init(){
         mPaint = new Paint();
         mCircleRect = new RectF();
-        xCenter = Utils.dp2px(getContext(), 100);
-        radius = Utils.dp2px(getContext(), 20);
-        xTextStart = Utils.dp2px(getContext(), 160);
+        xCenter = FuncUtils.dp2px(getContext(), 100);
+        radius = FuncUtils.dp2px(getContext(), 20);
+        xTextStart = FuncUtils.dp2px(getContext(), 160);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int hSpec = MeasureSpec.makeMeasureSpec(Utils.dp2px(getContext(), 100), MeasureSpec.EXACTLY);
+        int hSpec = MeasureSpec.makeMeasureSpec(FuncUtils.dp2px(getContext(), 100), MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, hSpec);
     }
 
@@ -73,22 +72,22 @@ public class RoundProgressHeader extends View implements FuncHeader {
         setTextPaint();
 
         if (mIsRefreshing){
-            canvas.drawText(TEXT_LOADING, xTextStart, yCenter + (Utils.getFontHeight(mPaint) / 2), mPaint);
+            canvas.drawText(TEXT_LOADING, xTextStart, yCenter + (FuncUtils.getFontHeight(mPaint) / 2), mPaint);
         }else if (mProgress == 1){
-            canvas.drawText(TEXT_LOAD_READY, xTextStart, yCenter + (Utils.getFontHeight(mPaint) / 2), mPaint);
+            canvas.drawText(TEXT_LOAD_READY, xTextStart, yCenter + (FuncUtils.getFontHeight(mPaint) / 2), mPaint);
         }else{
-            canvas.drawText(TEXT_LOADING_PROGRESS, xTextStart, yCenter + (Utils.getFontHeight(mPaint) / 2), mPaint);
+            canvas.drawText(TEXT_LOADING_PROGRESS, xTextStart, yCenter + (FuncUtils.getFontHeight(mPaint) / 2), mPaint);
         }
     }
 
     private void setCirclePaint(){
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(Color.BLUE);
-        mPaint.setStrokeWidth(Utils.dp2px(getContext(), 5));
+        mPaint.setStrokeWidth(FuncUtils.dp2px(getContext(), 5));
     }
 
     private void setTextPaint(){
-        mPaint.setTextSize(Utils.sp2px(getContext(), 20));
+        mPaint.setTextSize(FuncUtils.sp2px(getContext(), 20));
         mPaint.setStyle(Paint.Style.FILL);
     }
 

@@ -1,15 +1,14 @@
-package com.sg.funcrecyclerlib.smaple;
+package com.sg.funcrecyclerlib.sample;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.support.v7.view.menu.MenuPresenter;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sg.funcrecyclerlib.FuncRecyclerBehavior;
-import com.sg.funcrecyclerlib.Utils;
+import com.sg.funcrecyclerlib.utils.FuncUtils;
 
 /**
  * Created by SG on 2017/9/21.
@@ -38,7 +37,7 @@ public class ProgressFooter extends RelativeLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int hDp = 70;
-        int hSpec = MeasureSpec.makeMeasureSpec(Utils.dp2px(getContext(), hDp), MeasureSpec.EXACTLY);
+        int hSpec = MeasureSpec.makeMeasureSpec(FuncUtils.dp2px(getContext(), hDp), MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, hSpec);
 
     }
@@ -46,15 +45,15 @@ public class ProgressFooter extends RelativeLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        int progressRadius = Utils.dp2px(getContext(), 15);
-        mProgressBar.layout(Utils.dp2px(getContext(), 80),
+        int progressRadius = FuncUtils.dp2px(getContext(), 15);
+        mProgressBar.layout(FuncUtils.dp2px(getContext(), 80),
                 (int)((b - t) * FuncRecyclerBehavior.LOADMORE_THRESHOLD / 2) - progressRadius,
-                Utils.dp2px(getContext(), 80) + (2 * progressRadius),
+                FuncUtils.dp2px(getContext(), 80) + (2 * progressRadius),
                 (int)((b - t) * FuncRecyclerBehavior.LOADMORE_THRESHOLD / 2) - progressRadius + (2 * progressRadius));
-        int halfTextHeight = Utils.getFontHeight(mTextView.getPaint()) / 2;
-        mTextView.layout(Utils.dp2px(getContext(), 130),
+        int halfTextHeight = FuncUtils.getFontHeight(mTextView.getPaint()) / 2;
+        mTextView.layout(FuncUtils.dp2px(getContext(), 130),
                 (int)((b - t) * FuncRecyclerBehavior.LOADMORE_THRESHOLD / 2) - halfTextHeight,
-                Utils.dp2px(getContext(), 130) + Utils.getTextLength(mTextView.getPaint(), hint),
+                FuncUtils.dp2px(getContext(), 130) + FuncUtils.getTextLength(mTextView.getPaint(), hint),
                 (int)((b - t) * FuncRecyclerBehavior.LOADMORE_THRESHOLD / 2) + halfTextHeight);
     }
 
