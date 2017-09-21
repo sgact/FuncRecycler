@@ -53,6 +53,9 @@ public interface FuncHeader{
 ```
 
 onPullProgress会在下拉时被调用，参数progress表示下拉的进度，介于0和1之间，在这个方法中你可以根据progress的值方便的重新绘制你的自定义View。
+
+onRefresh();会在开始刷新时被调用。
+
 完成了你自定义的Header之后,你只需调用
 
 ```java
