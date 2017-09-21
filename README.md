@@ -23,6 +23,22 @@ frv.setLoadListener(new LoadListener() {
             }
         });
 ```
+在完成刷新时，你需要调用:
+```java
+frv.setRefreshingState(false);
+```
+在完成加载更多时，你需要调用：
+```java
+frv.setLoadingMoreState(false);
+```
+
+* 简单使用
+
+就像RecyclerView一样：
+```java
+frv.setLayoutManager(new LinearLayoutManager(this));
+frv.setAdapter(mAdapter);
+```
 
 * 自定义Header
 你只需为你的自定义View实现这个接口：
@@ -71,6 +87,17 @@ threshold的值越小，需要滑动的距离越小。
 ```java
   frv.setLoadMoreThreshold(threshold);
 ```
+
+* RecyclerView的原生操作
+FuncRecycler实际上是一个ViewGroup,如果你需要调用FuncRecycler未支持的RecyclerView方法，你只需调用：
+```java
+  frv.getmRecycler();
+```
+
+        
+
+
+
 
 
 
