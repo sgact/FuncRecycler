@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.View;
 
 import com.sg.funcrecyclerlib.FuncHeader;
@@ -17,6 +18,8 @@ import com.sg.funcrecyclerlib.Utils;
  */
 
 public class RoundProgressHeader extends View implements FuncHeader {
+
+    private String TAG = "RoundProgressHeader";
 
     public RoundProgressHeader(Context context) {
         super(context);
@@ -42,12 +45,13 @@ public class RoundProgressHeader extends View implements FuncHeader {
         xTextStart = Utils.dp2px(getContext(), 160);
     }
 
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        int wSpec = MeasureSpec.makeMeasureSpec(((FuncRecycler) getParent()).getWidth(), MeasureSpec.EXACTLY);
-//        int hSpec = MeasureSpec.makeMeasureSpec(Utils.dp2px(getContext(), 250), MeasureSpec.EXACTLY);
-//        super.onMeasure(wSpec, hSpec);
-//    }
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int wSpec = MeasureSpec.makeMeasureSpec(parentWidth, MeasureSpec.EXACTLY);
+        int hSpec = MeasureSpec.makeMeasureSpec(Utils.dp2px(getContext(), 100), MeasureSpec.EXACTLY);
+        super.onMeasure(wSpec, hSpec);
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -63,6 +67,8 @@ public class RoundProgressHeader extends View implements FuncHeader {
         mCircleRect.top = yCenter - radius;
         mCircleRect.right = xCenter + radius;
         mCircleRect.bottom = yCenter + radius;
+
+        Log.d(TAG, "onDraw: " + mCircleRect);
 
         canvas.drawArc(mCircleRect, 0, 360 * mProgress, false, mPaint);
 
@@ -95,6 +101,7 @@ public class RoundProgressHeader extends View implements FuncHeader {
         mIsRefreshing = false;
         this.mProgress = progress;
         invalidate();
+        Log.d(TAG, "onPullProgress: invalidate");
     }
 
     @Override

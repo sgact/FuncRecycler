@@ -39,7 +39,6 @@ public class FuncRecycler extends CoordinatorLayout {
     private View mFooter, mHeader;
     private RecyclerView mRecycler;
     private int mFooterHeight = 200;
-    private int mHeaderHeight = 400;
     private ViewGroup.LayoutParams mHeaderParams, mRecyclerParams, mFooterParams;
     private FuncRecyclerBehavior mBehavior;
 
@@ -156,11 +155,11 @@ public class FuncRecycler extends CoordinatorLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        mHeader.getLayoutParams().height = mHeaderHeight;
+//        mHeader.getLayoutParams().height = mHeaderHeight;
         mRecycler.getLayoutParams().height = getMeasuredHeight();
         mFooter.getLayoutParams().height = mFooterHeight;
 
-        mHeader.getLayoutParams().width = getMeasuredWidth();
+//        mHeader.getLayoutParams().width = getMeasuredWidth();
         mRecycler.getLayoutParams().width = getMeasuredWidth();
         mFooter.getLayoutParams().width = getMeasuredWidth();
     }

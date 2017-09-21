@@ -2,7 +2,6 @@ package com.sg.funcrecyclerlib;
 
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -24,7 +23,7 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
     /**
      * 当下拉的距离大于threshold * header#height时开始刷新
      */
-    public static float REFRESH_THRESHOLD = 0.65f;
+    public static float REFRESH_THRESHOLD = 0.7f;
 
     public FuncRecyclerBehavior() {
     }
@@ -53,7 +52,6 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
         boolean c8 = (coordinatorLayout.getScrollY() * (coordinatorLayout.getScrollY() + dy) < 0);//ScrollY归0
 
         if (c1 && ((c6 && c2) || (c3 && c7))){
-            Log.d(TAG, "onNestedPreScroll: 滑recycler");
             //滑recycler
         }else{
             //滑整体
@@ -89,8 +87,6 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
         int sy = parent.getScrollY();
         float progress = 1.0f * (-sy) / header.getMeasuredHeight();
 
-        Log.d(TAG, "doRefresh: " + sy + "======" + header.getMeasuredHeight());
-
         if (progress < REFRESH_THRESHOLD){//下拉的距离不足，展示动画
             ((FuncHeader) header).onPullProgress(progress / REFRESH_THRESHOLD);
         }else{//停靠Header并刷新
@@ -106,9 +102,7 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
         int sy = parent.getScrollY();
         float progress = 1.0f * (sy) / footer.getMeasuredHeight();
         if (progress < REFRESH_THRESHOLD){//上拉的距离不足
-            Log.d(TAG, "doLoadMore: too short" + sy + "===" + footer.getMeasuredHeight());
         }else{
-            Log.d(TAG, "doLoadMore: too ok");
             mLoadMoreCondition = true;
         }
     }
