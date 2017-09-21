@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.sg.funcrecyclerlib.smaple.RoundProgressHeader;
+
 /**
  * Created by SG on 2017/9/15.
  */
@@ -59,8 +61,7 @@ public class FuncRecycler extends CoordinatorLayout {
     private void init(Context context){
         mFooter = new ImageView(context);
         mFooter.setBackgroundColor(Color.parseColor("#123456"));
-        mHeader = new ImageView(context);
-        mHeader.setBackgroundColor(Color.parseColor("#987654"));
+        mHeader = new RoundProgressHeader(context);
         mRecycler = new RecyclerView(context);
         mRecycler.setBackgroundColor(Color.parseColor("#aaaaaa"));
 
@@ -115,6 +116,7 @@ public class FuncRecycler extends CoordinatorLayout {
             mIsRefreshingState = true;
             if (mListener != null) {
                 mListener.onRefresh();
+                ((FuncHeader) mHeader).onRefresh();
             }
         }
     }
@@ -204,6 +206,9 @@ public class FuncRecycler extends CoordinatorLayout {
         this.mListener = loadListener;
     }
 
+    /**
+     * 设置mIsFreshingState，当其为false时，刷新完毕。
+     */
     public void setRefreshingState(boolean mIsFreshingState) {
         if (!mIsFreshingState){
             restoreView();

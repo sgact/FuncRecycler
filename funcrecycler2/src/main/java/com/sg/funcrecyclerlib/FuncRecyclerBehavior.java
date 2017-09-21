@@ -24,7 +24,7 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
     /**
      * 当下拉的距离大于threshold * header#height时开始刷新
      */
-    public static float REFRESH_THRESHOLD = 0.8f;
+    public static float REFRESH_THRESHOLD = 0.65f;
 
     public FuncRecyclerBehavior() {
     }
@@ -91,9 +91,10 @@ public class FuncRecyclerBehavior extends CoordinatorLayout.Behavior<RecyclerVie
 
         Log.d(TAG, "doRefresh: " + sy + "======" + header.getMeasuredHeight());
 
-        if (progress < REFRESH_THRESHOLD){//todo 下拉的距离不足，展示动画
-
+        if (progress < REFRESH_THRESHOLD){//下拉的距离不足，展示动画
+            ((FuncHeader) header).onPullProgress(progress / REFRESH_THRESHOLD);
         }else{//停靠Header并刷新
+            ((FuncHeader) header).onPullProgress(1);
             mRefreshCondition = true;
         }
     }
